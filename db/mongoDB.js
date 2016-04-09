@@ -37,13 +37,6 @@ MongoDB.prototype.collection = function(cll) {
         });
       });
     },
-    deleteManyAsync: (d) => {
-      return Q.promise((resolve, reject) => {
-        this._db.collection(cll).deleteMany(d, (err, result) => {
-          err ? reject(err) : resolve(result);
-        });
-      });
-    },
     upsertAsync: (f, d) => {
       return Q.promise((resolve, reject) => {
         this._db.collection(cll).update(f, d, { upsert: true }, (err, result) => {
