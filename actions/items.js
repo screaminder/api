@@ -15,7 +15,9 @@ const itemReq = (mongoClient) => {
     let item = {
       userId: ObjectID(req.userId),
       type: req.body.type,
-      title: req.body.title
+      title: req.body.title,
+      datetime: new Date(req.body.datetime * 1000),
+      editable: false
     };
     itemsCollection.insertOneAsync(item).then((result) => {
       res.json(item);
