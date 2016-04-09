@@ -24,7 +24,7 @@ Content-Type: application/json
 Authorization: Bearer xxx
 
 ###Response
- ``json
+ ```json
  [{
    "userId": "xxx",
    "type": "birthday",
@@ -43,7 +43,7 @@ Content-Type: application/json
 Authorization: Bearer xxx
 
 ### Request body
- ``json
+ ```json
  {  
    "type":"birthday/workout/whatever",
    "title": "name of the item",
@@ -52,7 +52,7 @@ Authorization: Bearer xxx
  ```
 
 ###Response
- ``json
+ ```json
  {
    "userId": "xxx",
    "type": "birthday",
