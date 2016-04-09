@@ -10,7 +10,7 @@ const userAuth = (mongoClient) => {
       } else {
         let user = {phone: req.body.phone, key: new ObjectID()}
         usersCollection.insertOneAsync(user).then((result) => {
-          res.status(200).json(result);
+          res.status(200).json(user);
         }, (err) => {
           res.status(400).json({error_message: 'problem inserting user'});
         });
