@@ -7,7 +7,7 @@
  Content-Type: application/json
 
 ### Request body
- ``json
+ ```json
  {"phone":"xxx"}
  ```
 
