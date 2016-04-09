@@ -12,7 +12,9 @@ function onError(err, req, res, next) {
     res.status(500).json({error_message: 'something went wrong'});
 }
 
+
 //actions
+app.use(cors());
 app.get('/status', statusReq.get);
 
 // error handler
