@@ -31,6 +31,7 @@ app.post('/auth', bodyParser.json(), userAuth.post);
 
 app.get('/items', authMiddleware(mongoClient), itemReq.get);
 app.post('/items', authMiddleware(mongoClient), bodyParser.json(), itemReq.post);
+app.put('/items/:itemId', authMiddleware(mongoClient), bodyParser.json(), itemReq.put);
 
 // error handler
 app.use(onError);

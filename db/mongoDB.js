@@ -44,9 +44,9 @@ MongoDB.prototype.collection = function(cll) {
         });
       });
     },
-    upsertAsync: (f, d) => {
+    updateAsync: (f, d) => {
       return Q.promise((resolve, reject) => {
-        this._db.collection(cll).update(f, d, { upsert: true }, (err, result) => {
+        this._db.collection(cll).update(f, d, (err, result) => {
           err ? reject(err) : resolve(result);
         });
       })

@@ -11,6 +11,7 @@ const itemReq = (mongoClient) => {
       res.status(400).json({error_message: 'problem inserting user'});
     });
   };
+
   function postFn(req, res) {
     let item = {
       userId: ObjectID(req.userId),
@@ -26,9 +27,33 @@ const itemReq = (mongoClient) => {
       res.status(400).json({error_message: 'problem inserting item'});
     });
   };
+
+  function putFn(req, res) {
+    itemsCollection.findOneAsync({_id: ObjectID(req.params.itemId)}).then((result) => {
+      if (result) {
+        if (req.body.done) {
+          result.done = req.body.done;
+        }
+        if (req.body.title) {
+          result.title = req.body.title;
+        }
+        itemsCollection.updateAsync({_id: ObjectID(result._id)}, result).then((newResult) => {
+          res.json(result);
+        }, (err) => {
+          res.status(400).json({error_message: 'problem finding item'});
+        });
+      } else {
+        res.status(404).json({error_message: 'item not found'});
+      }
+    }, (err) => {
+      res.status(400).json({error_message: 'problem finding item'});
+    });
+  };
+
   return {
     get: getFn,
-    post: postFn
+    post: postFn,
+    put: putFn
   };
 };
 

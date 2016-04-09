@@ -49,7 +49,7 @@ Authorization: Bearer xxx
  {  
    "type":"birthday/workout/whatever",
    "title": "name of the item",
-   "datetime": "unixtimestamp",
+   "datetime": "isoStandardDate",
   }
  ```
 
@@ -62,6 +62,33 @@ Authorization: Bearer xxx
    "datetime": "2016-04-09T11:40:41.000Z",
    "editable": false,
    "done": false,
-   "_id": "5708eeb7f0bbc703000309d6"
+   "_id": "xxxx"
  }
  ```
+
+
+## Updating item
+PUT screaminder-api.herokuapp.com/items/{itemId}
+Content-Type: application/json
+Authorization: Bearer xxx
+
+### Request body
+ ```json
+ {  
+   "done": true,
+   "title": "new title",
+}
+ ```
+
+###Response
+  ```json
+  {
+    "userId": "xxx",
+    "type": "birthday",
+    "title": "new title",
+    "datetime": "2016-04-09T11:40:41.000Z",
+    "editable": false,
+    "done": true,
+    "_id": "xxx"
+  }
+  ```
