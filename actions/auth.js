@@ -1,10 +1,10 @@
 'use strict';
-
+var ObjectID = require('mongodb').ObjectID
 const userAuth = (mongoClient) => {
   const usersCollection = mongoClient.collection('users');
 
   function postFn(req, res) {
-    let user = {phone: req.body.phone}
+    let user = {phone: req.body.phone, key: new ObjectID()}
     usersCollection.insertOneAsync(user).then((result) => {
       res.status(200).json(user);
     }, (err) => {
