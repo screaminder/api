@@ -1,0 +1,22 @@
+{
+  "name": "screaminder-api",
+  "version": "0.0.0",
+  "description": "Provides api calls for creating items",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "screaminder/api"
+  },
+  "author": "",
+  "dependencies": {
+    "cors": "^2.7.1",
+    "express": "^4.13.4",
+    "lodash": "^4.6.1",
+    "mongodb": "^2.1.11",
+    "q": "^1.4.1"
+  }
+}
