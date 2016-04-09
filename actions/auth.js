@@ -1,5 +1,5 @@
 'use strict';
-var ObjectID = require('mongodb').ObjectID
+const ObjectID = require('mongodb').ObjectID
 const userAuth = (mongoClient) => {
   const usersCollection = mongoClient.collection('users');
 

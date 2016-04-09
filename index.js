@@ -6,11 +6,13 @@ const cors = require('cors');
 const statusReq = require('./actions/status.js');
 const MongoDB = require('./db/mongoDB.js');
 const bodyParser = require('body-parser');
+const authMiddleware = require('./auth/authMiddleware.js');
 
 const mongoClient = new MongoDB(process.env.MONGOLAB_URI);
-const app = express();
+
 
 const userAuth = require('./actions/auth.js')(mongoClient);
+const itemReq = require('./actions/items.js')(mongoClient);
 
 function onError(err, req, res, next) {
     console.log(err);
@@ -18,11 +20,16 @@ function onError(err, req, res, next) {
     res.status(500).json({error_message: 'something went wrong'});
 }
 
+const app = express();
 
 //actions
 app.use(cors());
+
 app.get('/status', statusReq.get);
 app.post('/auth', bodyParser.json(), userAuth.post);
+
+
+app.get('/items', authMiddleware(mongoClient), itemReq.get);
 
 // error handler
 app.use(onError);
