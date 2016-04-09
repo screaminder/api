@@ -9,7 +9,7 @@ const userAuth = (mongoClient) => {
       res.status(200).json(user);
     }, (err) => {
       console.log(err);
-      res.status(500).json({error_message: 'problem inserting user'});
+      res.status(400).json({error_message: 'problem inserting user'});
     });
   };
 

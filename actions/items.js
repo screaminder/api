@@ -8,7 +8,7 @@ const itemReq = (mongoClient) => {
     itemsCollection.findAsync({userId: ObjectID(req.userId)}).then((result) => {
       res.json(result);
     }, (err) => {
-      res.status(500).json({error_message: 'problem inserting user'});
+      res.status(400).json({error_message: 'problem inserting user'});
     });
   };
   function postFn(req, res) {
@@ -16,14 +16,14 @@ const itemReq = (mongoClient) => {
       userId: ObjectID(req.userId),
       type: req.body.type,
       title: req.body.title,
-      datetime: new Date(req.body.datetime * 1000),
+      datetime: new Date(req.body.datetime),
       editable: false,
       done: false
     };
     itemsCollection.insertOneAsync(item).then((result) => {
       res.json(item);
     }, (err) => {
-      res.status(500).json({error_message: 'problem inserting item'});
+      res.status(400).json({error_message: 'problem inserting item'});
     });
   };
   return {

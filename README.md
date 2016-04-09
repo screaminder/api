@@ -7,6 +7,8 @@
  Content-Type: application/json
 
 ### Request body
+Phone number is unique. If a number already exists you get error "problem inserting user".
+
  ```json
  {"phone":"xxx"}
  ```
