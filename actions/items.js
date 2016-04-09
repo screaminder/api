@@ -11,9 +11,21 @@ const itemReq = (mongoClient) => {
       res.status(500).json({error_message: 'problem inserting user'});
     });
   };
-
+  function postFn(req, res) {
+    let item = {
+      userId: ObjectID(req.userId),
+      type: req.body.type,
+      title: req.body.title
+    };
+    itemsCollection.insertOneAsync(item).then((result) => {
+      res.json(item);
+    }, (err) => {
+      res.status(500).json({error_message: 'problem inserting item'});
+    });
+  };
   return {
-    get: getFn
+    get: getFn,
+    post: postFn
   };
 };
 
