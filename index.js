@@ -13,7 +13,7 @@ const verifiedMiddleware = require('./auth/verifiedMiddleware.js');
 const mongoClient = new MongoDB(process.env.MONGOLAB_URI);
 const twilioClient = twilio(process.env.ACCOUNT_SID, process.env.AUTH_TOKEN);
 
-const userAuth = require('./actions/auth.js')(mongoClient, twilioClient, config);
+const userAuth = require('./actions/auth.js')(mongoClient, twilioClient);
 const itemReq = require('./actions/items.js')(mongoClient);
 const verifyReq = require('./actions/verify.js')(mongoClient);
 
