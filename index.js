@@ -7,12 +7,15 @@ const statusReq = require('./actions/status.js');
 const MongoDB = require('./db/mongoDB.js');
 const bodyParser = require('body-parser');
 const authMiddleware = require('./auth/authMiddleware.js');
+const verifiedMiddleware = require('./auth/verifiedMiddleware.js');
 
 const mongoClient = new MongoDB(process.env.MONGOLAB_URI);
 
 
 const userAuth = require('./actions/auth.js')(mongoClient);
 const itemReq = require('./actions/items.js')(mongoClient);
+const verifyReq = require('./actions/verify.js')(mongoClient);
+
 
 function onError(err, req, res, next) {
     console.log(err);
@@ -27,11 +30,11 @@ app.use(cors());
 
 app.get('/status', statusReq.get);
 app.post('/auth', bodyParser.json(), userAuth.post);
+app.post('/verify', authMiddleware(mongoClient), bodyParser.json(), verifyReq.post);
 
-
-app.get('/items', authMiddleware(mongoClient), itemReq.get);
-app.post('/items', authMiddleware(mongoClient), bodyParser.json(), itemReq.post);
-app.put('/items/:itemId', authMiddleware(mongoClient), bodyParser.json(), itemReq.put);
+app.get('/items', authMiddleware(mongoClient), verifiedMiddleware(), itemReq.get);
+app.post('/items', authMiddleware(mongoClient), verifiedMiddleware(), bodyParser.json(), itemReq.post);
+app.put('/items/:itemId', authMiddleware(mongoClient), verifiedMiddleware(), bodyParser.json(), itemReq.put);
 
 // error handler
 app.use(onError);

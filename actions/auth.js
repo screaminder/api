@@ -1,16 +1,22 @@
 'use strict';
 const ObjectID = require('mongodb').ObjectID
+const _ = require('lodash');
 const userAuth = (mongoClient) => {
   const usersCollection = mongoClient.collection('users');
 
   function postFn(req, res) {
     usersCollection.findOneAsync({phone: req.body.phone}).then((result) => {
       if (result) {
-        res.status(200).json(result);
+        res.status(200).json(_.omit(result, ['code']));
       } else {
-        let user = {phone: req.body.phone, key: new ObjectID()}
+        let user = {
+          phone: req.body.phone,
+          key: new ObjectID(),
+          verified: false,
+          code: getCode()
+        }
         usersCollection.insertOneAsync(user).then((result) => {
-          res.status(200).json(user);
+          res.status(200).json(_.omit(user, ['code']));
         }, (err) => {
           res.status(400).json({error_message: 'problem inserting user'});
         });
@@ -18,6 +24,10 @@ const userAuth = (mongoClient) => {
     }, (err) => {
       res.status(400).json({error_message: 'error on creating user'});
     });
+  };
+
+  function getCode(){
+    return Math.floor(Math.random() * (9999 - 1000 + 1)) + 1000;
   };
 
   return {
