@@ -5,9 +5,17 @@ const userAuth = (mongoClient, twilio_client) => {
   const usersCollection = mongoClient.collection('users');
 
   function postFn(req, res) {
-    usersCollection.findOneAsync({phone: req.body.phone}).then((result) => {
-      if (result) {
-        res.status(200).json(_.omit(result, ['code']));
+    usersCollection.findOneAsync({phone: req.body.phone}).then((user) => {
+      if (user) {
+        user.verified = false;
+        user.code = getCode();
+        usersCollection.updateAsync({_id: user._id}, user).then((result) => {
+          sendVerify(user.phone, user.code);
+          res.json(_.omit(user, ['code']));
+        }, (err) => {
+          res.status(400).json({error_message: "can't update user"});
+        })
+
       } else {
         let user = {
           phone: req.body.phone,
@@ -31,7 +39,7 @@ const userAuth = (mongoClient, twilio_client) => {
     twilio_client.sendMessage({
       to: number,
       from: process.env.TWILIO_FROM,
-      body: "Your verification code is: " + code + "."
+      body: "Your Screaminder verification code is: " + code + "."
     }, function(err, response) {
       if(err)
         console.error(err)
