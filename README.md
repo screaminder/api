@@ -15,16 +15,35 @@ Phone number is unique. If a number already exists you get error "problem insert
 
 ### Response
  ```json
- {"phone":"xxx","key":"xxxx","_id":"xxx"}
+ {"phone":"xxx","key":"xxxx","_id":"xxx", "verified": false}
  ```
  Use the value of "key" in Authorization header for item requests
 
-## Getting list of user items
+## Verifying user
+```
+POST screaminder-api.herokuapp.com/verify
+Content-Type: application/json
+Authorization: Bearer xxx
+```
 
+### Request body
+Code is four digit number
+
+ ```json
+ {"code":1234}
+ ```
+
+### Response
+  ```json
+  {"phone":"xxx","key":"xxxx","_id":"xxx", "verified": true}
+  ```
+
+## Getting list of user items
+```
 GET screaminder-api.herokuapp.com/items
 Content-Type: application/json
 Authorization: Bearer xxx
-
+```
 ###Response
  ```json
  [{
@@ -39,11 +58,11 @@ Authorization: Bearer xxx
  ```
 
 ## Posting item
-
+```
 POST screaminder-api.herokuapp.com/items
 Content-Type: application/json
 Authorization: Bearer xxx
-
+```
 ### Request body
  ```json
  {  
@@ -68,9 +87,11 @@ Authorization: Bearer xxx
 
 
 ## Updating item
+```
 PUT screaminder-api.herokuapp.com/items/{itemId}
 Content-Type: application/json
 Authorization: Bearer xxx
+```
 
 ### Request body
  ```json

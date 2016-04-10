@@ -8,24 +8,15 @@ const statusReq = require('./actions/status.js');
 const MongoDB = require('./db/mongoDB.js');
 const bodyParser = require('body-parser');
 const authMiddleware = require('./auth/authMiddleware.js');
+const verifiedMiddleware = require('./auth/verifiedMiddleware.js');
 
-var config = {}
-//prod/heroku
-if (process.env.ACCOUNT_SID) {
-	mongoClient = new MongoDB(process.env.MONGOLAB_URI);
-    config.accountSid = process.env.ACCOUNT_SID;
-    config.authToken = process.env.AUTH_TOKEN;
-    config.from = process.env.TWILIO_FROM;
-} else {
-    config = require('./config.js');
-    mongoClient = new MongoDB(config.mongo);
-}
+const mongoClient = new MongoDB(process.env.MONGOLAB_URI);
+const twilioClient = twilio(process.env.ACCOUNT_SID, process.env.AUTH_TOKEN);
 
-const twilio = require('twilio');
-const twilio_client = twilio(config.accountSid, config.authToken);
-
-const userAuth = require('./actions/auth.js')(mongoClient, twilio_client, config);
+const userAuth = require('./actions/auth.js')(mongoClient, twilioClient, config);
 const itemReq = require('./actions/items.js')(mongoClient);
+const verifyReq = require('./actions/verify.js')(mongoClient);
+
 
 function onError(err, req, res, next) {
     console.log(err);
@@ -40,11 +31,11 @@ app.use(cors());
 
 app.get('/status', statusReq.get);
 app.post('/auth', bodyParser.json(), userAuth.post);
+app.post('/verify', authMiddleware(mongoClient), bodyParser.json(), verifyReq.post);
 
-
-app.get('/items', authMiddleware(mongoClient), itemReq.get);
-app.post('/items', authMiddleware(mongoClient), bodyParser.json(), itemReq.post);
-app.put('/items/:itemId', authMiddleware(mongoClient), bodyParser.json(), itemReq.put);
+app.get('/items', authMiddleware(mongoClient), verifiedMiddleware(), itemReq.get);
+app.post('/items', authMiddleware(mongoClient), verifiedMiddleware(), bodyParser.json(), itemReq.post);
+app.put('/items/:itemId', authMiddleware(mongoClient), verifiedMiddleware(), bodyParser.json(), itemReq.put);
 
 // error handler
 app.use(onError);

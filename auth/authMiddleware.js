@@ -25,13 +25,17 @@ const authMiddleware = _.curry((mongoClient, req, res, next) => {
   usersCollection.findOneAsync({key: ObjectID(authSplit[1])}).then((result) => {
     if (result) {
       req.userId = result._id;
+      req.userVerified = result.verified;
       next();
+      return;
     } else {
       res.status(401).json({error_message: 'not allowed'});
+      return;
     }
 
   }, (err) => {
-    res.status(401).json({error_message: 'authorization header not valid'});
+    res.status(401).json({error_message: 'not allowed'});
+    return;
   });
 
 });
