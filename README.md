@@ -23,6 +23,7 @@ Phone number is unique. If a number already exists you get error "problem insert
 ```
 POST screaminder-api.herokuapp.com/verify
 Content-Type: application/json
+Authorization: Bearer xxx
 ```
 
 ### Request body
