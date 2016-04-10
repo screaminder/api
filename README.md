@@ -15,9 +15,25 @@ Phone number is unique. If a number already exists you get error "problem insert
 
 ### Response
  ```json
- {"phone":"xxx","key":"xxxx","_id":"xxx"}
+ {"phone":"xxx","key":"xxxx","_id":"xxx", "verified": false}
  ```
  Use the value of "key" in Authorization header for item requests
+
+## Verifying user
+POST screaminder-api.herokuapp.com/verify
+Content-Type: application/json
+
+### Request body
+Code is four digit number
+
+ ```json
+ {"code":1234}
+ ```
+
+### Response
+  ```json
+  {"phone":"xxx","key":"xxxx","_id":"xxx", "verified": true}
+  ```
 
 ## Getting list of user items
 
