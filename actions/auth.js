@@ -39,7 +39,7 @@ const userAuth = (mongoClient, twilio_client) => {
     twilio_client.sendMessage({
       to: number,
       from: process.env.TWILIO_FROM,
-      body: "Your Screaminder verification code is: " + code + "."
+      body: "Screaminder code is: " + code + ". Go fucking verify it!"
     }, function(err, response) {
       if(err)
         console.error(err)
