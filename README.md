@@ -20,8 +20,10 @@ Phone number is unique. If a number already exists you get error "problem insert
  Use the value of "key" in Authorization header for item requests
 
 ## Verifying user
+```
 POST screaminder-api.herokuapp.com/verify
 Content-Type: application/json
+```
 
 ### Request body
 Code is four digit number
@@ -36,11 +38,11 @@ Code is four digit number
   ```
 
 ## Getting list of user items
-
+```
 GET screaminder-api.herokuapp.com/items
 Content-Type: application/json
 Authorization: Bearer xxx
-
+```
 ###Response
  ```json
  [{
@@ -55,11 +57,11 @@ Authorization: Bearer xxx
  ```
 
 ## Posting item
-
+```
 POST screaminder-api.herokuapp.com/items
 Content-Type: application/json
 Authorization: Bearer xxx
-
+```
 ### Request body
  ```json
  {  
@@ -84,9 +86,11 @@ Authorization: Bearer xxx
 
 
 ## Updating item
+```
 PUT screaminder-api.herokuapp.com/items/{itemId}
 Content-Type: application/json
 Authorization: Bearer xxx
+```
 
 ### Request body
  ```json
