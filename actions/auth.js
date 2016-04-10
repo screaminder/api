@@ -1,6 +1,6 @@
 'use strict';
 const ObjectID = require('mongodb').ObjectID
-const userAuth = (mongoClient) => {
+const userAuth = (mongoClient, twilio_client, config) => {
   const usersCollection = mongoClient.collection('users');
 
   function postFn(req, res) {
@@ -17,6 +17,14 @@ const userAuth = (mongoClient) => {
       }
     }, (err) => {
       res.status(400).json({error_message: 'error on creating user'});
+    });
+  };
+
+  function sendVerify(number, code){
+    twilio_client.sendMessage({
+      to: number,
+      from: config.from,
+      body: "Your verification code is: ", code, "."
     });
   };
 
