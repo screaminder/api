@@ -5,10 +5,11 @@ const itemReq = (mongoClient) => {
   const itemsCollection = mongoClient.collection('items');
 
   function getFn(req, res) {
-    itemsCollection.findAsync({userId: ObjectID(req.userId)}).then((result) => {
+    itemsCollection.findAsync({$query: {$and: [{userId: ObjectID(req.userId)}, {done: false}]}, $orderby: {datetime: 1 }}).then((result) => {
       res.json(result);
     }, (err) => {
-      res.status(400).json({error_message: 'problem inserting user'});
+      console.log(err);
+      res.status(400).json({error_message: 'problem finding item'});
     });
   };
 
